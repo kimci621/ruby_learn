@@ -286,3 +286,40 @@ someNum.zero?     # -> false
 someNum.negative? # -> false
 someStr.upcase    # -> вернет строку с заглавными буквами без мутации самой переменной
 someStr.upcase!   # -> вернет строку с заглавными мутировав переменную
+
+
+#Классы, Classes
+class User
+end
+
+class Computer
+end
+
+class Network
+end
+
+class Host
+end
+# объекты классов
+user = User.new
+computer = Computer.new
+network = Network.new
+host = Host.new
+
+#класс с методами этого класса
+class User
+  def fio
+    puts('Name','Surname')
+  end
+  def profession
+    puts "programmer"
+  end
+end
+
+
+user = User.new
+#обявление объекта класса и вызов его методов
+puts "Username is: "
+user.fio
+puts "His proffession is: "
+user.profession
