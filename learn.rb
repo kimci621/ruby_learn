@@ -616,3 +616,133 @@ end
 system 'cls'
 # можно думать о блоках просто как о кусках кода, а yield, arg.call как о способе вводить этот код в произвольное место в методе
 # --------------------------------------------------------------------------------------------------
+# Class, Классы
+# Классы позволяють создавать объекты, до сих пор были только предопределенные классы
+class HelloWorld
+  def say
+    puts 'hello'
+  end
+end
+# HelloWorld = Class.new do
+#   def say
+#     puts 'hello'
+#   end
+# end
+
+hello = HelloWorld.new
+hello.say
+# class это объект (помним что все объект)
+# В Руби можно переопределять методы классов а так же классов самого руби
+p 'asdf'.reverse
+class String
+  def reverse
+    'Все сломал'
+  end 
+end
+p 'asdf'.reverse
+# Поэтому не стоит так делать))), но можно добавить и свой метод в String например
+class String
+  def customMenthod
+    split('')[0]
+  end
+end
+p 'asdf'.customMenthod
+# Тело класса является блоком и туда можно писать любой код, в тч и обычные принты,путсы, циклы и тд
+# В классе может быть и вложенный класс
+system 'cls'
+class Auto
+  def color
+    'black'
+  end
+
+  def build 
+    @engine = Engine.new
+  end
+
+  def engine
+    @engine
+  end
+
+  class Engine
+    def power 
+      '250'
+    end
+  end
+end
+
+Volvo = Auto.new
+Volvo.build
+p Volvo.color
+p Volvo.engine.power
+# @param - исп для других методов в пределах текущего класса
+# @@param - исп для класса и его сущностей и в любых методах в них
+# Чтобы напрямую обратиться до вложенного класса используем конмтрукцию  ParentClass::ChildClass
+PowerOfEngine = Auto::Engine.new
+p PowerOfEngine.power
+# КОНСТАНТЫ так же доступны через :: (оператор разрешения области видимости), и для просмотра необязательно объявлять класс
+class Auto 
+  SOMECONST = 'test constant in class'
+  class Engine
+    DEEPERCONST = 'deeper test constant in class'
+  end
+end
+p Auto::SOMECONST
+p Auto::Engine::DEEPERCONST
+# --------------------------------------------------------------------------------------------------
+system 'cls'
+# Методы класса
+# Для передачи классу аргументов и запуску всегда на первом месте по-умолчание используется метод класса initialize
+class InitTest
+  def initialize arg1, arg2
+    puts 'class ready to work'
+    puts 'class get to work first argument: ',"#{arg1}",' and second argument: ', "#{arg2}"
+  end
+  def getSome
+    'some'
+  end
+end
+
+ReadyToTest = InitTest.new(1234, 'testtest')
+p ReadyToTest.getSome
+# если в initialize указать аргументы, то необходимо их указывать при вызове, обязательно (но можно и передать аргументам значения по=умолчанию как в обычном методе)
+# Как работает метод .new - new по-сути вызывает 2 метода allocate и initialize, allocate - размещает объект в памяти, initialize - конструктор
+# Чтобы доставать и менять инстанс переменную класса, пользуемся стандартными геттером и сеттером
+class GetAndSet
+  def initialize arg='none'
+    puts 'testing getter and setter'
+    @arg = arg
+  end
+  def arg
+    @arg
+  end
+  def set_arg newArg
+    @arg = newArg
+  end
+end
+
+TestGaS = GetAndSet.new 'foo'
+p TestGaS.arg
+TestGaS.set_arg 'bar'
+p TestGaS.arg
+# Вместо нейминга сеттера вида set_ можно импользовать arg= newArg, руби позволяет и выглядит логично для сеттера
+# Вместо того чтобы писать геттер и сеттер вручную, сообщество решило это двумя способами
+# 1) attr_writter :price, :count
+#    attr_reader  :price, :count
+# 2) Если геттеры и сеттреы идентичны
+#    attr_accessor :price, :count
+# Все эти методы автоматически создают геттер(name) и сеттер(name=)
+class Cls 
+  attr_accessor :price, :count
+  def initialize(price: 500, count: 999)
+    @price = price
+    @count = count
+  end
+end
+newCls = Cls.new
+p newCls.price
+p newCls.count
+newCls.price= 1999
+newCls.count= 22
+p newCls.price
+p newCls.count
+# Очень просто, быстро и лаконично
