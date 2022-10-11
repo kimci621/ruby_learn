@@ -943,4 +943,41 @@ end
 
 'asdf'.hello
 # Все как в this, но гораздо логичнее)))
+# --------------------------------------Перегрузка опрераторов с self----------------------------------------------
+system 'cls'
+class Overload 
+  attr_accessor :num
+  
+  def initialize num: 0
+    @num = num
+  end
+  
+  def +(num)
+    @num += num
+    self
+  end
+
+end
+
+newOverload = Overload.new
+newOverload.+ 100
+newOverload.+ 666
+pp newOverload.num
+# --------------------------------------Класс как блок----------------------------------------------
+system 'cls'
+class LikeABlock
+  attr_accessor :date, :price
+  def initialize 
+    yield self
+  end
+end
+
+likeABlock = LikeABlock.new do |cls|
+  cls.date= '22-08-1998'
+  cls.price= 9999
+end
+# likeABlock равно Классу LikeABlock, который запускает метод .new, в котором initialize, который возвращает сам Класс в качестве блока и мы в этот самый блок черех его сеттеры ставим новые значения 
+pp likeABlock.date
+pp likeABlock.price
+
 # ------------------------------------------------------------------------------------
